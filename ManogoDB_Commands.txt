@@ -1,0 +1,115 @@
+show dbs
+use test1
+show collections
+db.dropDatabase()
+show dbs
+
+use sample
+show dbs
+db
+db.createCollections('dept')
+db.createCollections('emp')
+show collections
+db.dept.insert({
+id: 10,
+name: 'admin'
+})
+
+db.dept.insert({
+id: 20,
+name: 'clerk',
+manager: 'smith'
+})
+
+db.dept.insertMany([
+{
+id: 30,
+name: 'hr'
+},
+{
+id: 40,
+name: 'IT',
+manager: 'manohar'
+}
+])
+db.dept.find()
+db.dept.find().pretty()
+
+
+db.emp.insert({
+empid:100,
+name:'manohar',
+id:10
+})
+
+db.emp.insert({
+empid:200,
+name:'nihal',
+id:20,
+salary:5000
+})
+
+db.emp.insert({
+empid:300,
+name:'saanvi',
+id:20,
+salary:6000,
+color:['yellow','white','orange','blue'],
+desc: {
+eye:'black',
+hair:'black',
+age:25
+}
+})
+
+db.emp.insertMany([
+{
+empid:400,
+name:'raji',
+id:30
+salary:3500
+},
+{
+empid:500,
+name:'ravi',
+id:40,
+salary:3000,
+date: Date()
+}
+])
+db.emp.find() - Show all rows
+db.emp.find().pretty()
+db.emp.find({name:'saanvi'}) -- Search
+db.emp.find({name:'saanvi'}).pretty()
+db.emp.find().sort({id:1}) -- Asc
+db.emp.find().sort({id:-1}) -- Des
+db.emp.find().sort({id:1}).pretty() -- Asc
+db.emp.find().sort({id:-1}).pretty() -- Des
+db.emp.find().count() - Count Rows
+db.emp.find({id:20}).count() - Count Search Rows
+db.emp.find().limit(1)
+db.emp.find().sort({id:-1}).limit(2) -- Des
+db.emp.find().forEach(function(id) { print('ID:' + id.title)})
+
+
+db.dept.update({manager:'smith'},
+{
+id: 20,
+name: 'clerk',
+manager: 'raji'
+},
+{
+upsert:true
+})
+
+db.emp.remove({empid:400})
+
+db.emp.insert({
+empid:400,
+name:'raji',
+id:30,
+salary:3500
+})
+
+db.emp.createIndex({name:'text'})
+db.emp.find({ $text: { $search: "\"raji\"" } })
